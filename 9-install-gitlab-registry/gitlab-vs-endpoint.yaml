@@ -1,0 +1,43 @@
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "gitlab"
+spec:
+  ports:
+    - name: "gitlab"
+      protocol: "TCP"
+      port: 8089
+      targetPort: 8089
+      nodePort: 0
+---
+kind: "Endpoints"
+apiVersion: "v1"
+metadata:
+  name: "gitlab"
+subsets:
+  - addresses:
+      - ip: "192.168.1.26"
+    ports:
+      - port: 8089
+        name: "gitlab"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gitlab-vs
+spec:
+  hosts:
+    - "gitlab.local.k8s.com"
+  gateways:
+    - "istio-system/local-k8s-gateway"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: gitlab
+            port:
+              number: 8089

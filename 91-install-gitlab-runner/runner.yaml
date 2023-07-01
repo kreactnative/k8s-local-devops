@@ -1,0 +1,94 @@
+imagePullPolicy: IfNotPresent
+gitlabUrl: http://192.168.1.26:8089/
+runnerRegistrationToken: "Uk_bdzuqXqnLzMjqoteJ"
+affinity: {}
+checkInterval: 30
+clusterWideAccess: true
+concurrent: 3
+configMaps: {}
+hostAliases:
+  - ip: "192.168.1.80"
+    hostnames:
+      - "gitlab.local.k8s.com"
+      - "registry.local.k8s.com"
+image:
+  image: gitlab-org/gitlab-runner
+  registry: registry.gitlab.com
+  tags: v15.8.0
+logLevel: info
+metrics:
+  enabled: false
+  port: 9252
+  portName: metrics
+  serviceMonitor:
+    enabled: false
+nodeSelector: {}
+podAnnotations:
+  sidecar.istio.io/inject: "false"
+podEnvAnnotations:
+  sidecar.istio.io/inject: "false"
+podLabels: {}
+podSecurityContext:
+  fsGroup: 65533
+  runAsUser: 100
+priorityClassName: ""
+rbac:
+  clusterWideAccess: false
+  create: true
+  podSecurityPolicy:
+    enabled: false
+    resourceNames:
+      - gitlab-runner
+  rules: []
+replicas: 3
+resources: {}
+runners:
+  imagePullSecrets:
+    - docker-registry-credentials
+  builds: {}
+  cache: {}
+  config: |
+    [[runners]]
+      [runners.kubernetes]
+        tls_verify = false
+        cap_add = ["SYS_TIME", "IPC_LOCK"]
+        namespace = "{{.Release.Namespace}}"
+        image = "docker:19.03.12"
+        poll_interval = 5
+        poll_timeout = 3600
+        [runners.kubernets.pod_annotations]
+          "sidecar.istio.io/inject" = "false"
+        [[runners.kubernetes.host_aliases]]
+          ip = "192.168.1.80"
+          hostnames = ["gitlab.local.k8s.com", "registry.local.k8s.com"]
+        [[runners.kubernetes.extra_hosts]]
+          "gitlab.local.k8s.com" = "192.168.1.80"
+          "registry.local.k8s.com" = "192.168.1.80"
+        [runners.kubernetes.dns_config]
+          nameservers = ["192.168.1.1"]
+  executor: kubernetes
+  helpers: {}
+  name: Kubernetes Runner
+  privileged: true
+  services: {}
+  tags: local-k8s-runner
+  tlsVerify: false
+secrets: []
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  privileged: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+service:
+  enabled: false
+  type: ClusterIP
+sessionServer:
+  enabled: false
+terminationGracePeriodSeconds: 3600
+tolerations: []
+unregisterRunners: true
+volumeMounts: []
+volumes: []

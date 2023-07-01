@@ -1,0 +1,19 @@
+image: docker:20.10.16
+services:
+  - name: docker:23.0.3-dind
+    command: ["--tls=false", "--insecure-registry=192.168.1.26:8189"]
+stages:
+  - build-docker
+  - qa
+build-docker:
+  stage: build-docker
+  image: docker:23.0.3-dind
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://localhost:2375
+    GIT_SSL_NO_VERIFY: 1
+  tags:
+    - local-k8s-runner
+  script:
+    - docker build -f Dockerfile -t helm-kubectl .

@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+  gitlab-ce:
+    image: 'gitlab/gitlab-ce:16.1.1-ce.0'
+    restart: always
+    hostname: 'gitlab.local.k8s.com'
+    container_name: gitlab-ce
+    privileged: true
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.local.k8s.com'
+        nginx['listen_https'] = false
+        nginx['listen_port'] = 8089
+        registry_nginx['enable'] = true
+        registry_nginx['listen_https'] = false
+        registry_nginx['listen_port'] = 8189
+        registry_external_url 'https://registry.local.k8s.com'
+        puma['worker_timeout'] = 60
+        puma['worker_processes'] = 0
+        puma['per_worker_max_memory_mb'] = 1024
+        gitlab_rails['time_zone'] = 'Asia/Bangkok'
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = 'smtp.gmail.com'
+        gitlab_rails['smtp_port'] = 587
+        gitlab_rails['smtp_user_name'] = 'dotnetnat@gmail.com'
+        gitlab_rails['smtp_password'] = 'xxxxxxxxxxxx'
+        gitlab_rails['smtp_authentication'] = 'login'
+        gitlab_rails['smtp_enable_starttls_auto'] = true
+        gitlab_rails['smtp_tls'] = false
+        gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+        gitlab_rails['gitlab_email_from'] = 'dotnetnat@gmail.com'
+    ports:
+      - '8089:8089'
+      - '8189:8189'
+    volumes:
+      - './config:/etc/gitlab'
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+    networks:
+      - gitlab
+networks:
+  gitlab:
