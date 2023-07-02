@@ -18,6 +18,20 @@ mkcert
 #### tutorials
 ```
 1.create vm (parallel desktop)
+```
+```youtube-embed
+{
+   "width": "560",
+   "height": "315",
+   "src": "https://youtu.be/v09Xj7n6sEQ",
+   "title": "YouTube video player",
+   "frameborder": "0",
+   "allow": "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+   "allowfullscreen": true
+}
+```
+
+```
 2.install k8s
 3.install k8s network
 4.install k8s metrics server
