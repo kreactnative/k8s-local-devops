@@ -41,4 +41,5 @@ brew install nss
 8.create-k8s-istio-gateway-site
 9.install gitlab/registry (docker)
 9-1.install k8s gitlab runner
+9-2.test gitlab runner
 ```
