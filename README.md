@@ -5,16 +5,30 @@ macos
 parallels desktop
 ```
 
-#### require
+#### install kubectl
 ```
-kubectl
-istioctl
-helm
-cilium
-ktail
-mkcert
+brew install kubectl
 ```
-
+#### install istioctl
+- [istioctl](https://istio.io/latest/docs/ops/diagnostic-tools/istioctl/)
+#### install helm
+```
+brew install helm
+```
+#### install cilium-cli
+```
+brew install cilium-cli
+```
+#### install ktail
+```
+brew tap atombender/ktail
+brew install atombender/ktail/ktail
+```
+#### install mkcert
+```
+brew install mkcert
+brew install nss
+```
 #### tutorials
 ```
 1.create vm (parallel desktop)
