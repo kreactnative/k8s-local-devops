@@ -3,9 +3,10 @@
 ```
 - k8s
 - istio gateway
-- local domain
-- gitlab site
-- registry container image site
+- local domain/gitlab/registry site/hubble-ui
+    - https://gitlab.local.k8s.com
+    - https://registry.local.k8s.com
+    - https://hubble-ui.local.k8s.com
 - local gitlab runner
 - test cicd
 ```
