@@ -1,4 +1,14 @@
 ### local Devops
+#### feature
+```
+- k8s
+- istio gateway
+- local domain
+- gitlab site
+- registry container image site
+- local gitlab runner
+- test cicd
+```
 #### spec
 ```
 macos
